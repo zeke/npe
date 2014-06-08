@@ -1,26 +1,22 @@
 {
   "name": "npe",
   "version": "0.0.0",
-  "description": "",
+  "description": "A CLI for one-off inspection and editing of properties in package.json files.",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/zeke/npe"
   },
-  "keywords": [
-    "",
-    "",
-    ""
-  ],
-  "author": "",
+  "keywords": ["package.json", "CLI", "terminal"],
+  "author": "zeke",
   "license": "MIT",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/zeke/npe/issues"
   },
-  "homepage": "",
+  "homepage": "https://github.com/zeke/npe",
   "devDependencies": {
     "mocha": "^1.20.0",
     "nixt": "^0.3.0"
@@ -29,5 +25,6 @@
     "dotenv": "^0.2.8",
     "minimist": "^0.1.0",
     "steeltoe": "^1.0.1"
-  }
+  },
+  "bin": "index.js"
 }

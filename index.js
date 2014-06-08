@@ -10,8 +10,14 @@ if (!args.package) args.package = __dirname + "/package.json";
 var pkg = require(args.package);
 
 // Usage
-if (!args._.length)
-  return console.log("Usage: npe <property>");
+if (!args._.length) {
+  console.log("\nNode Package Editor");
+  console.log("Get: npe <property>");
+  console.log("Set: npe <property> <value>");
+  console.log("\n./package.json is used by default, but you can override:");
+  console.log("npe <property> --package=./some/other/package.json");
+  return;
+}
 
 // Get
 if (args._.length === 1)
