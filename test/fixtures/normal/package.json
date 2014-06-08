@@ -1,0 +1,23 @@
+{
+  "name": "normal",
+  "version": "0.0.0",
+  "description": "A normal package.json",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/example/normal"
+  },
+  "keywords": [
+    "normal",
+    "package"
+  ],
+  "author": "zeke",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/example/normal/issues"
+  },
+  "homepage": "https://github.com/example/normal"
+}

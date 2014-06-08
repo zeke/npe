@@ -1,17 +1,20 @@
 {
-  "name": "",
+  "name": "npe",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "echo no start script... yet!",
     "test": "mocha"
   },
   "repository": {
     "type": "git",
     "url": ""
   },
-  "keywords": ["","",""],
+  "keywords": [
+    "",
+    "",
+    ""
+  ],
   "author": "",
   "license": "MIT",
   "bugs": {
@@ -19,9 +22,12 @@
   },
   "homepage": "",
   "devDependencies": {
-    "mocha": "^1.20.0"
+    "mocha": "^1.20.0",
+    "nixt": "^0.3.0"
   },
   "dependencies": {
-    "dotenv": "^0.2.8"
+    "dotenv": "^0.2.8",
+    "minimist": "^0.1.0",
+    "steeltoe": "^1.0.1"
   }
 }

@@ -1,22 +1,103 @@
-"use strict"
+var nixt = require('nixt');
 
-require("dotenv").load()
-var assert = require("assert")
+describe("npe", function() {
 
-describe("thing", function() {
+  it("outputs usage when not given a property", function(done) {
+    nixt()
+      .run('./index.js')
+      .stdout(/usage/i)
+      .end(done);
+  });
 
-  beforeEach(function() {
-    // stuff
-  })
+  describe("with one argument", function(){
 
-  it("does stuff", function() {
-    assert(true)
-  })
+    it("gets name", function(done) {
+      nixt()
+        .run('./index.js name')
+        .stdout("npe")
+        .end(done);
+    });
 
-  it("reads environment from .env file", function() {
-    assert.equal(process.env.FOO, "BAR")
-  })
+    it("gets scripts", function(done) {
+      nixt()
+        .run('./index.js scripts')
+        .stdout(/test:/)
+        .end(done);
+    });
 
-  it("has pending stuff")
+    it("gets scripts.test", function(done) {
+      nixt()
+        .run('./index.js scripts.test')
+        .stdout("mocha")
+        .end(done);
+    });
 
-})
+  });
+
+  describe("with --package flag", function(){
+
+    it("gets name", function(done) {
+      nixt()
+        .run('./index.js name --package test/fixtures/normal/package.json')
+        .stdout("normal")
+        .end(done);
+    });
+
+    it("outputs scripts", function(done) {
+      nixt()
+        .run('./index.js scripts --package test/fixtures/normal/package.json')
+        .stdout(/tape/)
+        .end(done);
+    });
+
+    it("outputs scripts.test", function(done) {
+      nixt()
+        .run('./index.js scripts.test --package test/fixtures/normal/package.json')
+        .stdout("tape")
+        .end(done);
+    });
+
+  });
+
+  describe("with two arguments", function(){
+
+    beforeEach(function(done){
+      nixt()
+        .run('cp test/fixtures/normal/package.json test/fixtures/normal/tmp.json')
+        .end(done);
+    });
+
+    afterEach(function(done){
+      nixt()
+        .run('rm test/fixtures/normal/tmp.json')
+        .end(done);
+    });
+
+    it("sets name", function(done) {
+      nixt()
+        .expect(function(result){
+          var pkg = require("test/fixtures/normal/tmp.json");
+          if (!pkg || pkg.name != "foo") {
+            return new Error('package name should be foo');
+          }
+        })
+        .run('./index.js name foo --package=test/fixtures/normal/tmp.json')
+        .end(done);
+    });
+
+    it("sets scripts.start", function(done) {
+      nixt()
+        .expect(function(result){
+          var pkg = require("test/fixtures/normal/tmp.json");
+          if (!pkg || !pkg.scripts || pkg.scripts.start != "node index.js") {
+            // console.log(pkg)
+            return new Error('scripts.start should be "node index.js"');
+          }
+        })
+        .run('./index.js scripts.start "node index.js" --package=test/fixtures/normal/tmp.json')
+        .end(done);
+    });
+
+  });
+
+});
