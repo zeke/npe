@@ -1,0 +1,27 @@
+{
+  "name": "",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "echo no start script... yet!",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": ["","",""],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "devDependencies": {
+    "mocha": "^1.20.0"
+  },
+  "dependencies": {
+    "dotenv": "^0.2.8"
+  }
+}
