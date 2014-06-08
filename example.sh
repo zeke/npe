@@ -1,11 +1,13 @@
-# Get stuff
+cd some/node/project
+
+# Get stuff from package.json
 npe name
 npe scripts
 npe scripts.test
 npe repository.url
 open $(npe repository.url)
 
-# Set stuff
+# Set stuff in package.json
 npe name foo
 npe scripts.start "node index.js"
 
