@@ -1,6 +1,6 @@
-# npe 
+# npe [![Build Status](https://travis-ci.org/zeke/npe.png?branch=master)](https://travis-ci.org/zeke/npe)
 
-A CLI for one-off inspection and editing of properties in package.json files.
+Node Package Editor: a CLI for one-off inspection and editing of properties in package.json files.
 
 ## Installation
 
@@ -26,7 +26,13 @@ open $(npe repository.url)
 npe name foo
 npe scripts.start "node index.js"
 
-# Use a file other than the current directory's package.json
+# Keywords string will be turned into an array
+# If commas are present, they'll be the delimiter. Otherwise spaces.
+npm keywords "foo, bar, cheese whiz"
+npm keywords "foo bar baz"
+
+# The current working directory's package.json is used by default,
+# but you can point to another package file with a flag:
 npe name --package=some/other/package.json
 npe name other --package=some/other/package.json
 
@@ -41,6 +47,7 @@ npm test
 
 ## Dependencies
 
+- [merge](https://github.com/yeikos/js.merge): JavaScript/NodeJS Merge is a tool to merge multiple objects into one object, with the possibility of create a new object cloned. His operation is very similar to the jQuery.extend function but more flexible.
 - [minimist](https://github.com/substack/minimist): parse argument options
 - [steeltoe](https://github.com/jclem/steeltoe): Don&#39;t shoot yourself in the foot while traversing JavaScript objects.
 
@@ -49,6 +56,7 @@ npm test
 
 - [mocha](https://github.com/visionmedia/mocha): simple, flexible, fun test framework
 - [nixt](https://github.com/vesln/nixt): Simple and powerful testing for command-line apps
+- [tmp](https://github.com/raszi/node-tmp): Temporary file and directory creator
 
 
 ## License
