@@ -1,10 +1,16 @@
 #!/usr/bin/env node
 
 var fs = require("fs");
+var merge = require("merge");
 var steelToe = require("steeltoe");
+var stringToArray = require("./lib/string-to-array");
 var args = require("minimist")(process.argv.slice(2));
 
-if (!args.package) args.package = __dirname + "/package.json";
+var defaults = {
+  package: __dirname + "/package.json"
+};
+
+args = merge(defaults, args);
 
 var pkg = require(args.package);
 
@@ -24,4 +30,8 @@ if (args._.length === 1)
 
 // Set
 steelToe(pkg).set(args._[0], args._[1]);
+
+if (typeof(pkg.keywords) === "string")
+  pkg.keywords = stringToArray(pkg.keywords);
+
 fs.writeFileSync(args.package, JSON.stringify(pkg, null, 2));

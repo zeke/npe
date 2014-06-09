@@ -1,7 +1,7 @@
 {
   "name": "npe",
-  "version": "0.0.0",
-  "description": "A CLI for one-off inspection and editing of properties in package.json files.",
+  "version": "0.1.0",
+  "description": "Node Package Editor: a CLI for one-off inspection and editing of properties in package.json files.",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
@@ -26,6 +26,7 @@
     "nixt": "^0.3.0"
   },
   "dependencies": {
+    "merge": "^1.1.3",
     "minimist": "^0.1.0",
     "steeltoe": "^1.0.1"
   },
