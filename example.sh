@@ -11,6 +11,12 @@ open $(npe repository.url)
 npe name foo
 npe scripts.start "node index.js"
 
-# Use a file other than the current directory's package.json
+# Keywords string will be turned into an array
+# If commas are present, they'll be the delimiter. Otherwise spaces.
+npm keywords "foo, bar, cheese whiz"
+npm keywords "foo bar baz"
+
+# The current working directory's package.json is used by default,
+# but you can point to another package file with a flag:
 npe name --package=some/other/package.json
 npe name other --package=some/other/package.json
