@@ -7,7 +7,7 @@ var stringToArray = require("./lib/string-to-array");
 var args = require("minimist")(process.argv.slice(2));
 
 var defaults = {
-  package: __dirname + "/package.json"
+  package: process.cwd() + "/package.json"
 };
 
 args = merge(defaults, args);
