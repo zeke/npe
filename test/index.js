@@ -1,3 +1,5 @@
+'use strict';
+
 var fs = require('fs');
 var nixt = require('nixt');
 var util = require('util');
@@ -27,7 +29,7 @@ describe("npe", function() {
     it("gets scripts", function(done) {
       nixt()
         .run('./index.js scripts')
-        .stdout(/test:/)
+        .stdout(/\"test\"/)
         .end(done);
     });
 
@@ -67,45 +69,57 @@ describe("npe", function() {
 
   describe("with two arguments", function(){
     var pkg;
-    var tmpName;
+    var tmpFile;
 
     beforeEach(function(done){
-      tmpName = util.format("/tmp/package-%s.json", Math.random()*10000);
+      tmpFile = util.format("/tmp/package-%s.json", Math.random()*10000);
       nixt()
-        .run("cp test/fixtures/normal/package.json " + tmpName)
+        .run("cp test/fixtures/normal/package.json " + tmpFile)
         .end(done);
     });
 
-    // afterEach(function(done){
-    //   pkg = null;
-    //   nixt()
-    //     .run('rm test/fixtures/normal/tmp.json')
-    //     .end(done);
-    // });
-
-    it("sets name", function(done) {
+    it("sets top-level properties like 'name'", function(done) {
       nixt()
         .expect(function(result){
-          pkg = require(tmpName);
-          if (!pkg || pkg.name != "foo") {
+          pkg = require(tmpFile);
+          if (!pkg || pkg.name !== "foo") {
             return new Error('package name should be foo');
           }
         })
-        .run("./index.js name foo --package="+tmpName)
+        .run("./index.js name foo --package="+tmpFile)
+        .end(done);
+    });
+
+    it("sets nested properties like 'scripts.start'", function(done) {
+      nixt()
+        .expect(function(result){
+          var pkg = require(tmpFile);
+
+          if (!pkg.scripts) {
+            console.log(pkg);
+            return new Error('scripts property should exist');
+          }
+
+          if (pkg.scripts.start !== "node index.js") {
+            console.log(pkg.scripts);
+            return new Error("scripts.start should be 'node index.js'");
+          }
+        })
+        .run("./index.js scripts.start \"node index.js\" --package="+tmpFile)
         .end(done);
     });
 
     it("sets keywords array from a comma-delimited string", function(done) {
       nixt()
         .expect(function(result){
-          pkg = require(tmpName);
+          pkg = require(tmpFile);
 
           if (!util.isArray(pkg.keywords)) {
             console.log(pkg.keywords);
             return new Error('keywords should be an array');
           }
 
-          if (pkg.keywords.length != 2) {
+          if (pkg.keywords.length !== 2) {
             console.log(pkg.keywords);
             return new Error('keywords should have two elements');
           }
@@ -116,21 +130,21 @@ describe("npe", function() {
           }
 
         })
-        .run("./index.js keywords \"foo, bar\" --package="+tmpName)
+        .run("./index.js keywords \"foo, bar\" --package="+tmpFile)
         .end(done);
     });
 
     it("sets keywords array from a space-delimited string", function(done) {
       nixt()
         .expect(function(result){
-          pkg = require(tmpName);
+          pkg = require(tmpFile);
 
           if (!util.isArray(pkg.keywords)) {
             console.log(pkg.keywords);
             return new Error('keywords should be an array');
           }
 
-          if (pkg.keywords.length != 2) {
+          if (pkg.keywords.length !== 2) {
             console.log(pkg.keywords);
             return new Error('keywords should have two elements');
           }
@@ -146,28 +160,34 @@ describe("npe", function() {
           }
 
         })
-        .run("./index.js keywords \"foo bar\" --package="+tmpName)
+        .run("./index.js keywords \"foo bar\" --package="+tmpFile)
         .end(done);
     });
 
-    it("sets scripts.start", function(done) {
+    it("sets 'false' string to a boolean false", function(done) {
       nixt()
         .expect(function(result){
-          var pkg = require(tmpName);
-
-          if (!pkg.scripts) {
-            console.log(pkg);
-            return new Error('scripts property should exist');
-          }
-
-          if (pkg.scripts.start != "node index.js") {
-            console.log(pkg.scripts);
-            return new Error("scripts.start should be 'node index.js'");
+          pkg = require(tmpFile);
+          if (!pkg || pkg.private !== false) {
+            return new Error('boolean property should be false');
           }
         })
-        .run("./index.js scripts.start \"node index.js\" --package="+tmpName)
+        .run("./index.js private false --package="+tmpFile)
         .end(done);
     });
+
+    it("sets 'true' string to boolean true", function(done) {
+      nixt()
+        .expect(function(result){
+          pkg = require(tmpFile);
+          if (!pkg || pkg.private !== true) {
+            return new Error('boolean property should be true');
+          }
+        })
+        .run("./index.js private true --package="+tmpFile)
+        .end(done);
+    });
+
 
   });
 
