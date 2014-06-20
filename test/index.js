@@ -9,7 +9,7 @@ describe("npe", function() {
     it("outputs usage", function(done) {
       nixt()
         .run('./index.js')
-        .stdout(/Node Package Editor/i)
+        .stdout(/Get values from package\.json/i)
         .end(done);
     });
 

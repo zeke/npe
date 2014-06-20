@@ -16,22 +16,32 @@ var pkg = require(args.package);
 
 // Usage
 if (!args._.length) {
-  console.log("\nNode Package Editor");
-  console.log("Get: npe <property>");
-  console.log("Set: npe <property> <value>");
-  console.log("\n./package.json is used by default, but you can override:");
-  console.log("npe <property> --package=./some/other/package.json");
-  return;
+  return console.log(fs.readFileSync(__dirname + "/example.sh").toString());
 }
 
 // Get
-if (args._.length === 1)
-  return console.log(steelToe(pkg).get(args._[0]));
+if (args._.length === 1) {
+  var val = steelToe(pkg).get(args._[0]);
+  if (typeof(val) !== "string") {val = JSON.stringify(val, null, 2);}
+  return console.log(val);
+}
 
 // Set
 steelToe(pkg).set(args._[0], args._[1]);
 
-if (typeof(pkg.keywords) === "string")
+if (typeof(pkg.keywords) === "string") {
   pkg.keywords = stringToArray(pkg.keywords);
+}
+
+
+Object.keys(pkg).forEach(function(property){
+  if (pkg[property] === "true") {
+    pkg[property] = true;
+  }
+
+  if (pkg[property] === "false") {
+    pkg[property] = false;
+  }
+})
 
 fs.writeFileSync(args.package, JSON.stringify(pkg, null, 2));
