@@ -1,6 +1,6 @@
 {
   "name": "npe",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Node Package Editor: a CLI for one-off inspection and editing of properties in package.json files.",
   "main": "index.js",
   "scripts": {
