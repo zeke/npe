@@ -20,6 +20,10 @@ if (!args._.length) {
   return console.log(fs.readFileSync(__dirname + "/example.sh").toString());
 }
 
+if (!fs.existsSync(defaults.package)) {
+  return console.log("There is no package.json in ", __dirname);
+}
+
 // Get
 if (args._.length === 1) {
   var val = steelToe(pkg).get(args._[0]);
