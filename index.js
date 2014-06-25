@@ -21,7 +21,7 @@ if (!args._.length) {
 }
 
 if (!fs.existsSync(defaults.package)) {
-  return console.log("There is no package.json in ", __dirname);
+  return console.log("No package.json file found. Use `npm init` to create a new package.json file");
 }
 
 // Get
