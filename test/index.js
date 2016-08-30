@@ -164,6 +164,61 @@ describe("npe", function() {
         .end(done);
     });
 
+    it("sets files array from a comma-delimited string", function(done) {
+      nixt()
+        .expect(function(result){
+          pkg = require(tmpFile);
+
+          if (!util.isArray(pkg.files)) {
+            console.log(pkg.files);
+            return new Error('files should be an array');
+          }
+
+          if (pkg.files.length !== 2) {
+            console.log(pkg.files);
+            return new Error('files should have two elements');
+          }
+
+          if (pkg.files[0] !== "bin/") {
+            console.log(pkg.files);
+            return new Error('first keyword should be bin/');
+          }
+
+        })
+        .run("./index.js files \"bin/, lib/\" --package="+tmpFile)
+        .end(done);
+    });
+
+    it("sets files array from a space-delimited string", function(done) {
+      nixt()
+        .expect(function(result){
+          pkg = require(tmpFile);
+
+          if (!util.isArray(pkg.files)) {
+            console.log(pkg.files);
+            return new Error('files should be an array');
+          }
+
+          if (pkg.files.length !== 2) {
+            console.log(pkg.files);
+            return new Error('files should have two elements');
+          }
+
+          if (pkg.files[0] !== "bin/") {
+            console.log(pkg.files);
+            return new Error('first keyword should be bin/');
+          }
+
+          if (pkg.files[1] !== "lib/") {
+            console.log(pkg.files);
+            return new Error('last keyword should be lib/');
+          }
+
+        })
+        .run("./index.js files \"bin/ lib/\" --package="+tmpFile)
+        .end(done);
+    });
+
     it("sets 'false' string to a boolean false", function(done) {
       nixt()
         .expect(function(result){
