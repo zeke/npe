@@ -3,7 +3,8 @@
 var fs = require('fs');
 var nixt = require('nixt');
 var util = require('util');
-
+var path = require('path');
+var fixturePath = path.join(__dirname, "fixtures/normal/package.json");
 describe("npe", function() {
 
   describe("with no arguments", function(){
@@ -46,21 +47,21 @@ describe("npe", function() {
 
     it("gets name", function(done) {
       nixt()
-        .run('./index.js name --package test/fixtures/normal/package.json')
+        .run('./index.js name --package ' + fixturePath)
         .stdout("normal")
         .end(done);
     });
 
     it("outputs scripts", function(done) {
       nixt()
-        .run('./index.js scripts --package test/fixtures/normal/package.json')
+        .run('./index.js scripts --package ' + fixturePath)
         .stdout(/tape/)
         .end(done);
     });
 
     it("outputs scripts.test", function(done) {
       nixt()
-        .run('./index.js scripts.test --package test/fixtures/normal/package.json')
+        .run('./index.js scripts.test --package ' + fixturePath)
         .stdout("tape")
         .end(done);
     });
@@ -74,7 +75,7 @@ describe("npe", function() {
     beforeEach(function(done){
       tmpFile = util.format("/tmp/package-%s.json", Math.random()*10000);
       nixt()
-        .run("cp test/fixtures/normal/package.json " + tmpFile)
+        .run("cp " + fixturePath +" " + tmpFile)
         .end(done);
     });
 
