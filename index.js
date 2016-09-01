@@ -37,7 +37,9 @@ steelToe(pkg).set(args._[0], args._[1]);
 if (typeof(pkg.keywords) === "string") {
   pkg.keywords = stringToArray(pkg.keywords);
 }
-
+if (typeof(pkg.files) === "string") {
+  pkg.files = stringToArray(pkg.files);
+}
 
 Object.keys(pkg).forEach(function(property){
   if (pkg[property] === "true") {
@@ -47,6 +49,6 @@ Object.keys(pkg).forEach(function(property){
   if (pkg[property] === "false") {
     pkg[property] = false;
   }
-})
+});
 
 fs.writeFileSync(args.package, JSON.stringify(pkg, null, 2));
