@@ -2,6 +2,9 @@
 
 Node Package Editor: a CLI for one-off inspection and editing of properties in package.json files.
 
+See also [dot-json](https://github.com/maikelvl/dot-json), a CLI for editing
+any JSON file.
+
 ## Installation
 
 Download node at [nodejs.org](http://nodejs.org) and install it, if you haven't already.
