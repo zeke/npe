@@ -13,15 +13,16 @@ var defaults = {
 
 args = merge(defaults, args);
 
-var pkg = require(args.package);
-
 // Usage
 if (!args._.length) {
   return console.log(fs.readFileSync(__dirname + "/example.sh").toString());
 }
 
+// Check package.json existence
 if (!fs.existsSync(defaults.package)) {
   return console.log("No package.json file found. Use `npm init` to create a new package.json file");
+}else{
+  var pkg = require(args.package);
 }
 
 // Get
