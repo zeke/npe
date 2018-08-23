@@ -6,6 +6,7 @@ var merge = require("merge");
 var steelToe = require("steeltoe");
 var stringToArray = require("./lib/string-to-array");
 var args = require("minimist")(process.argv.slice(2));
+var endOfLine = require('os').EOL;
 
 var defaults = {
   package: process.cwd() + "/package.json"
@@ -51,4 +52,4 @@ Object.keys(pkg).forEach(function(property){
   }
 });
 
-fs.writeFileSync(args.package, JSON.stringify(pkg, null, 2));
+fs.writeFileSync(args.package, JSON.stringify(pkg, null, 2) + endOfLine);
