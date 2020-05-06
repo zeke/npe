@@ -7,10 +7,7 @@
     "test": "mocha",
     "lint": "standard --fix"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/zeke/npe"
-  },
+  "repository": "https://github.com/zeke/npe",
   "keywords": [
     "package.json",
     "CLI",
@@ -18,10 +15,6 @@
   ],
   "author": "zeke",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/zeke/npe/issues"
-  },
-  "homepage": "https://github.com/zeke/npe",
   "devDependencies": {
     "mocha": "^5.2.0",
     "nixt": "^0.5.0",
@@ -35,6 +28,8 @@
   "bin": "index.js",
   "preferGlobal": true,
   "standard": {
-    "env": ["mocha"]
+    "env": [
+      "mocha"
+    ]
   }
 }
