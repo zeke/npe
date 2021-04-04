@@ -28,6 +28,8 @@ if (!fs.existsSync(defaults.package)) {
   process.exit()
 }
 
+
+
 // Get
 if (args._.length === 1) {
   var val = steelToe(pkg).get(args._[0])
@@ -36,8 +38,13 @@ if (args._.length === 1) {
   process.exit()
 }
 
-// Set
-steelToe(pkg).set(args._[0], args._[1])
+if (args._.length === 2 && args.delete) {
+  // Delete
+  steelToe(pkg).set(args._[0], undefined)
+} else if (args._.length > 1) {
+  // Set
+  steelToe(pkg).set(args._[0], args._[1])
+}
 
 if (typeof (pkg.keywords) === 'string') {
   pkg.keywords = stringToArray(pkg.keywords)
