@@ -83,6 +83,25 @@ describe('npe', function () {
         .end(done)
     })
 
+    it("deletes nested properties like 'scripts.start'", function (done) {
+      nixt()
+        .expect(function (result) {
+          var pkg = require(tmpFile)
+
+          if (!pkg.scripts) {
+            console.log(pkg)
+            return new Error('scripts property should exist')
+          }
+
+          if (pkg.scripts.start == 'node index.js') {
+            console.log(pkg.scripts)
+            return new Error("scripts.start should not exist")
+          }
+        })
+        .run('./index.js scripts.start --delete --package=' + tmpFile)
+        .end(done)
+    })
+    
     it("sets nested properties like 'scripts.start'", function (done) {
       nixt()
         .expect(function (result) {
