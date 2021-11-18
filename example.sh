@@ -24,3 +24,6 @@ npm private true
 # but you can point to another package file with the --package flag:
 npe name --package=some/other/package.json
 npe name other --package=some/other/package.json
+
+# Deleting a key is done with the --delete flag:
+npe --delete main
