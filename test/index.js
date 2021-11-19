@@ -232,4 +232,84 @@ describe('npe', function () {
         .end(done)
     })
   })
+
+  describe('with --delete flag', function () {
+    var pkg
+    var tmpFile
+
+    beforeEach(function (done) {
+      tmpFile = util.format('/tmp/package-%s.json', Math.random() * 10000)
+      nixt()
+        .run('cp ' + fixturePath + ' ' + tmpFile)
+        .end(done)
+    })
+
+    it("check that entry 'main' exists", function (done) {
+      nixt()
+        .run('./index.js main --package=' + tmpFile)
+        .stdout(/index\.js/)
+        .end(done)
+    })
+
+    it("it deletes entry 'main'", function (done) {
+      nixt()
+        .expect(function (result) {
+          pkg = require(tmpFile)
+          if (!pkg || pkg.main) {
+            return new Error('main should be deleted')
+          }
+        })
+        .run('./index.js --delete main --package=' + tmpFile)
+        .end(done)
+    })
+
+    it('it deletes multiple keys', function (done) {
+      nixt()
+        .expect(function (result) {
+          pkg = require(tmpFile)
+          if (!pkg || pkg.main || pkg.scripts) {
+            return new Error('main and scripts should be deleted')
+          }
+        })
+        .run('./index.js --delete main --package=' + tmpFile + ' ' + 'scripts')
+        .end(done)
+    })
+
+    it("check that entry 'repository.url' exists", function (done) {
+      nixt()
+        .run('./index.js repository.url --package=' + tmpFile)
+        .stdout(/^https:\/\/github\.com\/example\/normal$/)
+        .end(done)
+    })
+
+    it('it deletes nested keys', function (done) {
+      nixt()
+        .expect(function (result) {
+          pkg = require(tmpFile)
+          if (!pkg || !pkg.repository || pkg.repository.url) {
+            return new Error('repository.url should be deleted')
+          }
+        })
+        .run('./index.js --delete "repository.url" --package=' + tmpFile)
+        .end(done)
+    })
+
+    it('delete all nested keys leaves empty object', function (done) {
+      nixt()
+        .expect(function (result) {
+          pkg = require(tmpFile)
+          if (!pkg || !pkg.repository || pkg.repository.url || pkg.repository.type) {
+            return new Error('repository.url should be deleted')
+          }
+          if (typeof pkg.repository !== 'object') {
+            return new Error('repository is not of type object')
+          }
+          if (Object.keys(pkg.repository).length > 0) {
+            return new Error('expect repository to be empty')
+          }
+        })
+        .run('./index.js --delete repository.url repository.type --package=' + tmpFile)
+        .end(done)
+    })
+  })
 })

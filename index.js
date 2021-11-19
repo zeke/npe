@@ -6,7 +6,11 @@ var path = require('path')
 var merge = require('merge')
 var steelToe = require('steeltoe')
 var stringToArray = require('./lib/string-to-array')
-var args = require('minimist')(process.argv.slice(2))
+var args = require('minimist')(process.argv.slice(2),
+  {
+    string: ['package'],
+    boolean: ['delete']
+  })
 var endOfLine = require('os').EOL
 
 var defaults = {
@@ -16,6 +20,9 @@ var defaults = {
 args = merge(defaults, args)
 
 var pkg = require(args.package)
+var write = function (file, data) {
+  fs.writeFileSync(file, JSON.stringify(data, null, 2) + endOfLine)
+}
 
 // Usage
 if (!args._.length) {
@@ -25,6 +32,15 @@ if (!args._.length) {
 
 if (!fs.existsSync(defaults.package)) {
   console.log('No package.json file found. Use `npm init` to create a new package.json file')
+  process.exit()
+}
+
+// Delete
+if (args.delete) {
+  for (var idx in args._) {
+    steelToe(pkg).set(args._[idx], undefined)
+  }
+  write(args.package, pkg)
   process.exit()
 }
 
@@ -55,5 +71,4 @@ Object.keys(pkg).forEach(function (property) {
     pkg[property] = false
   }
 })
-
-fs.writeFileSync(args.package, JSON.stringify(pkg, null, 2) + endOfLine)
+write(args.package, pkg)
